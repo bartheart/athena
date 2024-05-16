@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* background */
+.dashboard {
+    display: flex;
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* text color*/
+.student-submissions *,
+.header *,
+.content *,
+.course-info *,
+.submission-stats *,
+.actions *,
+.sections *,
+.help-text {
+  color: black;
+}
+
+
+
+.header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+
+  }
+  
+  .athena-ai {
+    font-weight: bold;
+    font-size: 30px;
+    color: #333;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-left: 20%;
+    padding-right: 20%;
+    
+  }
+  
+  .sidebar {
+    align-items: center;
+  }
+  
+  .course-info {
+    margin-right: 20px;
+  }
+  
+  .course-title,
+  .assignment-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .grouping {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .grouping-input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #eee;
+    
+  }
+  
+  .navigation {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .actions {
+    display: flex;
+  }
+  
+  .edit-key,
+  .re-upload {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .analyze-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .help-text {
+    font-style: italic;
+    color: #aaa;
+  }
+  
+  .sections {
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .section {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .content {
+    flex: 1;
+    justify-content: center;
+    padding-top: 2.5%;
+  }
+  
+  .submission-stats {
+    text-align: center;
+  }
+  
+  .stats-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .folder-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5%;
+    padding: 1%;
+  }
+  
+  .similarity-range {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #eee;
+    margin-bottom: 5%;
+  }
+  
+  .image {
+    width: 400px; /* Adjust image width as needed */
+  }
+  
+  .description {
+    width: 100%; /* Make description same width as similarity-range */
+    text-align: center;
+    color: #000; /* Same color as similarity-range */
+    margin-bottom: 15px;
+  }
+
+  .stats-header {
+    font-size: 20px;
+    margin-bottom: 5%;
+  }
