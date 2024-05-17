@@ -4,13 +4,15 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List
 import os 
+from pdf_processing import process_questions_from_text
+
 
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Allow requests from all origins (update as needed)
+    allow_origins=["*"],  # Allow requests from all origins (update as needed)
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Add OPTIONS
     allow_headers=["*"],  # Allow all headers (update as needed)
@@ -87,7 +89,10 @@ async def read_pdf(filename: str):
     pdf_path = os.path.join(pdf_directory, filename)
     return FileResponse(pdf_path)
 
-
+# endpoint to process the answers
+@app.get("/process_answers", response_model=List[dict])
+async def process_answers():
+    return process_questions_from_text(pdf_directory)
 
 @app.post("/analyze")
 async def analyze_phrases(phrases: List[Phrase]):
