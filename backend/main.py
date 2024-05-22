@@ -4,7 +4,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List
 import os 
-from pdf_processing import process_questions_from_text
+from pdf_processing import *
 
 
 app = FastAPI()
@@ -92,7 +92,7 @@ async def read_pdf(filename: str):
 # endpoint to process the answers
 @app.get("/process_answers", response_model=List[dict])
 async def process_answers():
-    return process_questions_from_text(pdf_directory)
+    return group_by_similarity(23, 4, pdf_directory)
 
 @app.post("/analyze")
 async def analyze_phrases(phrases: List[Phrase]):

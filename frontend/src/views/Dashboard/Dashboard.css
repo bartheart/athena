@@ -131,7 +131,7 @@
     margin-bottom: 10px;
   }
   
-  .folder-icons {
+  .folder-icons .group-lists {
     display: flex;
     flex-wrap: wrap;
     gap: 5%;
