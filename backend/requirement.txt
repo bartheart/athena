@@ -1,0 +1,8 @@
+pymupdf
+tensorflow
+torch
+transformers
+fastapi
+uvicorn
+pydantic
+tensorflow-hub

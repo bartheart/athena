@@ -1,4 +1,4 @@
-import tensorflow_hub as hub
+from tensorflow_hub import load as tfhub_load
 
 class UniversalSentenceEncoder:
     model = None
@@ -7,7 +7,7 @@ class UniversalSentenceEncoder:
     def get_model():
         if UniversalSentenceEncoder.model is None:
             print("Loading the Universal Sentence Encoder model...")
-            UniversalSentenceEncoder.model = hub.load('https://tfhub.dev/google/universal-sentence-encoder/4')
+            UniversalSentenceEncoder.model = tfhub_load('https://tfhub.dev/google/universal-sentence-encoder/4')
         return UniversalSentenceEncoder.model
 
 def sentence_embedding(sentence):
@@ -18,4 +18,3 @@ def sentence_embedding(sentence):
     except Exception as e:
         print(f"Error in generating embedding: {e}")
         return None
-
