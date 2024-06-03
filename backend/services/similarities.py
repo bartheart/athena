@@ -26,6 +26,7 @@ def compute_similarities(pdf_directory):
             similarities.append({
                 "student_id": student_answer["student_id"],
                 "question_id": question_id,
+                "question": student_answer["question"],
                 "answer": student_answer["answer"],
                 "similarity": float(similarity)
             })
