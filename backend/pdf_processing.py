@@ -3,7 +3,7 @@ import json
 import re
 import os
 from logic import sentence_embedding
-from bert import encode_text
+from sbert import encode_text
 import tensorflow as tf
 import torch
 
@@ -177,6 +177,7 @@ def compute_similarities(pdf_directory):
             similarities.append({
                 "student_id": student_answer["student_id"],
                 "question_id": question_id,
+                "question": student_answer["question"],
                 "answer": student_answer["answer"],
                 "similarity": float(similarity)  # Convert to Python float for compatibility
             })
@@ -213,3 +214,22 @@ def group_by_similarity(question_id, num_groupings, pdf_directory):
     
     # Convert the list of dictionaries to JSON
     return grouped_responses
+
+
+def questionAnswer(questionId, pdf_directory):
+    # Assuming process_questions_from_text returns a list of dictionaries
+    student_answers = process_questions_from_text(pdf_directory)
+    
+    # Find the first student answer that matches the given questionId
+    for answer in student_answers:
+        if answer["question_id"] == questionId:
+            # Return a dictionary directly
+            return {
+                "student_id": answer["student_id"],
+                "question_id": answer["question_id"],
+                "question": answer["question"],
+                "answer": answer["answer"]
+            }
+    
+    # Return an empty dictionary or a meaningful message if no match is found
+    return {"message": "No answer found for the specified question ID."}
