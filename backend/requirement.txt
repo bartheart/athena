@@ -6,3 +6,4 @@ fastapi
 uvicorn
 pydantic
 tensorflow-hub
+sentence_transformers
