@@ -1,62 +1,71 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
 import PageDisplay from './PageDisplay.jsx';
-
-
+import '../views/Dashboard/Dashboard.css';
 
 const FileUpload = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState('');
+  const [files, setFiles] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0); // Track the currently displayed file index
 
-  const handleFileChange = (event) => {
-    // Clean up the previous URL
-    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+  const onDrop = useCallback(acceptedFiles => {
+    const mappedFiles = acceptedFiles.map(file => ({
+      ...file,
+      preview: URL.createObjectURL(file)
+    }));
+    setFiles(currentFiles => [...currentFiles, ...mappedFiles]);
+    setCurrentIndex(0); // Reset index when new files are dropped
+  }, []);
 
-    const file = event.target.files[0];
-    setSelectedFile(file);
-
-    const url = URL.createObjectURL(file);
-    setPdfUrl(url);
-  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: 'application/pdf', multiple: true });
 
   const handleUpload = (event) => {
     event.preventDefault();
-    // Handle the file upload process here
-    console.log(selectedFile);
-    alert('File uploaded successfully');
+    // Handle the file upload process here, such as uploading to a server
+    console.log(files);
+    alert('Files uploaded successfully');
   };
 
-  // Clean up the blob URL when the component is unmounted
+  // Clean up previews on unmount
   useEffect(() => {
-    return () => {
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-    };
-  }, [pdfUrl]);
+    return () => files.forEach(file => URL.revokeObjectURL(file.preview));
+  }, [files]);
+
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prevState => prevState - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < files.length - 1) {
+      setCurrentIndex(prevState => prevState + 1);
+    }
+  };
+
+  const currentFile = files[currentIndex] || null; // Get the currently displayed file
 
   return (
-    <div className="flex flex-col items-center justify-center container p-4">
+    <div className="drag-container p-4">
+      <div>
+        <h2>Student Submissions</h2>
+      </div>
+      <div {...getRootProps()} className="dropzone">
+        <input {...getInputProps()} />
+        {
+          isDragActive ?
+            <p>Drop the files here ...</p> :
+            <p>Drag 'n' drop some files here, or <button className="browse-button">Browse Files</button></p>
+        }
+      </div>
       <form onSubmit={handleUpload} className="flex flex-col space-y-4">
-        <label className="block text-sm font-medium text-gray-700">
-          Upload PDF
-          <input
-            type="file"
-            accept="application/pdf"
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-sm p-2"
-            onChange={handleFileChange}
-          />
-        </label>
-        {selectedFile && (
-          <span className="text-sm text-gray-500">
-            File selected: {selectedFile.name}
-          </span>
+        {currentFile && (
+          <div>
+            <span>File selected: {currentFile.name}</span>
+            <PageDisplay pdfUrl={currentFile.preview} />
+          </div>
         )}
-        <button
-          type="submit"
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-        >
-          Upload
-        </button>
+        <button type="submit" className="upload-button">Upload Files</button>
       </form>
-      {pdfUrl && <PageDisplay pdfUrl={pdfUrl} />}
     </div>
   );
 };

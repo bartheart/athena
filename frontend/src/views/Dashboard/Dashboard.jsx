@@ -3,6 +3,7 @@ import './Dashboard.css';
 import Grouping from '../../components/Grouping';
 import FolderIcons from '../../components/FolderIcons';
 import GroupingList from '../../components/GroupingList';
+import FileUpload from '../../components/FileUpload';
 
 function DashBoard() {
   return (

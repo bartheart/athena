@@ -1,1 +1,1 @@
-from .models import Phrase, PDFFile
+from .models import Submission, Base
