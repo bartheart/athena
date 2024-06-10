@@ -30,7 +30,7 @@ function DashBoard() {
         </div>
       </div>
       <div className="content">
-          < GroupingList />
+          < FileUpload />
       </div>
     </div>
   );

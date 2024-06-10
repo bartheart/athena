@@ -1,0 +1,22 @@
+
+# Bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Dynamic directories that should be ignored
+**/__pycache__/
+
+
+# Specific .pyc files in your directory structure
+backend/mocks/__pycache__/__init__.cpython-310.pyc
+backend/mocks/__pycache__/mock_data.cpython-310.pyc
+backend/models/__pycache__/__init__.cpython-310.pyc
+backend/models/__pycache__/models.cpython-310.pyc
+backend/routes/__pycache__/__init__.cpython-310.pyc
+backend/routes/__pycache__/routes.cpython-310.pyc
+backend/services/__pycache__/__init__.cpython-310.pyc
+backend/services/__pycache__/bert.cpython-310.pyc
+backend/services/__pycache__/embedding.cpython-310.pyc
+backend/services/__pycache__/pdf_processing.cpython-310.pyc
+backend/services/__pycache__/similarities.cpython-310.pyc
