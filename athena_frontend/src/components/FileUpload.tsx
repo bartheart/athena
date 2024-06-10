@@ -11,7 +11,7 @@ function FileUpload() {
 
     const file = event.target.files?.[0];
     setSelectedFile(file || null);
-
+    console.log(file);
     if (file) {
       const url = URL.createObjectURL(file);
       setPdfUrl(url);
