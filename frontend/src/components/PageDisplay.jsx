@@ -40,10 +40,10 @@ function MyApp() {
 
   return (
     <div className='pdf-container'>
-      <div className="arrows-container">
+      <div className="arrows-container left"> {/* Added class for left positioning */}
         <FaArrowLeft className="arrow-left" onClick={handlePreviousPdf} disabled={currentPdfIndex === 0} />
       </div>
-      <div className="pdf-content">
+      <div className="pdf-content">  {/* Centered PDF content */}
         {pdfFiles.length > 0 && (
           <Document
             file={`http://localhost:8000/pdf/${pdfFiles[currentPdfIndex].filename}`}
@@ -58,7 +58,7 @@ function MyApp() {
           </p>
         )}
       </div>
-      <div className="arrows-container">
+      <div className="arrows-container right"> {/* Added class for right positioning */}
         <FaArrowRight className="arrow-right" onClick={handleNextPdf} disabled={currentPdfIndex === pdfFiles.length - 1} />
       </div>
     </div>

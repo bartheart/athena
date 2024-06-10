@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from routes import router as api_router
 
+
 app = FastAPI()
 
 app.add_middleware(
@@ -13,3 +14,4 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+

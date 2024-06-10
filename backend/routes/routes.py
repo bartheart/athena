@@ -1,10 +1,14 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from fastapi.responses import FileResponse
-from typing import List
-import os
+from typing import List, Annotated
 from services import group_by_similarity
-from models.models import Phrase, PDFFile
+from models.models import Phrase, PDFFile, SubmissionSchema,Submission
+import models
+from db import engine, SessionLocal
 from mocks import fake_database
+from sqlalchemy.orm import Session
+import os
 
 router = APIRouter()
 
@@ -46,3 +50,24 @@ async def analyze_phrases(phrases: List[Phrase]):
     print("Concatenated Text:", concatenated_text)
     print("Concatenated Explanations:", concatenated_explanations)
     return {"concatenated_text": concatenated_text, "concatenated_explanations": concatenated_explanations}
+
+
+
+# database configuration
+# Dependency to get the DB session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
+@router.post("/upload")
+async def upload_file(student_id: int, filename: str, filepath: str, db: db_dependency):
+    db_submission = models.Submission(student_id=student_id, filename=filename, filepath=filepath)
+    db.add(db_submission)
+    db.commit()
+    db.refresh(db_submission)
+    return {"message": "File uploaded successfully", "id": db_submission.id}
