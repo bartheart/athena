@@ -15,7 +15,9 @@
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@views/*": ["views/*"],
-      "@theme/*": ["theme/*"]
+      "@theme/*": ["theme/*"],
+      "@auth/*": ["auth/*"],
+      "@context/*": ["context/*"]
     }
   },
   "include": ["src"],
