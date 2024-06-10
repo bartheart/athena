@@ -1,28 +1,50 @@
-import { Box, Flex } from '@chakra-ui/react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
+import { ChakraProvider } from '@chakra-ui/react';
 import Dashboard from '@views/Dashboard/Dashboard';
 import Grading from '@views/Grading/Grading';
-import Sidebar from '@components/Sidebar';
+import Login from '@views/Login/Login';
+import Registration from '@views/Registration/Registration';
+import ForgotPassword from '@views/ForgotPassword/ForgotPassword';
+import SetPassword from '@views/SetPassword/SetPassword';
+import ProtectedRoute from '@components/ProtectedRoute';
 import Header from '@components/Header';
+import MainLayout from '@components/MainLayout';
 
 function App() {
   return (
-    <Router>
-      <Flex direction="column" height="100vh">
+    <ChakraProvider>
+      <Router>
         <Header />
-        <Flex flex="1">
-          <Sidebar />
-          <Box flex="1" p="5" overflow="auto">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/grading" element={<Grading />} />
-              {/* Define other routes here */}
-            </Routes>
-          </Box>
-        </Flex>
-      </Flex>
-    </Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/set-password" element={<SetPassword />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <Dashboard />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/grading"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <Grading />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+          {/* Define other routes here */}
+        </Routes>
+      </Router>
+    </ChakraProvider>
   );
 }
 

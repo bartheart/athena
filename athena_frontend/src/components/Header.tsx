@@ -1,10 +1,17 @@
 import React from 'react';
-import { Box, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+
 
 const Header = () => {
   return (
-    <Box bg="gray.50" p={5} borderBottom="1px" borderColor="gray.200" width="100%">
-      <Heading as="h1" size="lg" color="gray.800">ATHENA ai</Heading>
+    <Box bg="white" width="100%" p={4} color="black" boxShadow="sm">
+      <Flex justify="space-between" align="center" maxW="1200px" mx="auto">
+        <Heading size="lg">
+          <Link to="/">ATHENA ai</Link>
+        </Heading>
+
+      </Flex>
     </Box>
   );
 };
