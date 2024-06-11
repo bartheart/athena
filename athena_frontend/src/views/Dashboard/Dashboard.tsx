@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box} from '@chakra-ui/react';
-// import GroupingList from '@components/GroupingList';
+import GroupingList from '@components/GroupingList';
 import FileUpload from '@components/FileUpload';
 
 function DashBoard() {
@@ -8,7 +8,7 @@ function DashBoard() {
 
         <Box flex="1" p="5" overflow="auto">
           <FileUpload/>
-          {/* <GroupingList /> */}
+          <GroupingList />
         </Box>
      
   );
