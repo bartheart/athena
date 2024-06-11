@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Button, Text, VStack, Heading } from '@chakra-ui/react';
 import PageDisplay from '@components/PageDisplay';
+import axios from 'axios';
 
 interface FileWithPreview extends File {
   preview: string;
@@ -26,11 +27,27 @@ const FileUpload: React.FC = () => {
     multiple: true
   });
 
-  const handleUpload = (event: React.FormEvent) => {
+  const handleUpload = async (event: React.FormEvent) => {
     event.preventDefault();
     // Handle the file upload process here, such as uploading to a server
-    console.log(files);
-    alert('Files uploaded successfully');
+    const formData = new FormData();
+    formData.append('student_id', '123'); // Replace with actual student ID
+    if (files.length > 0) {
+      formData.append('file', files[0]);
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Files uploaded successfully');
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('File upload failed');
+    }
   };
 
   useEffect(() => {
