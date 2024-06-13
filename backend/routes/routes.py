@@ -12,7 +12,7 @@ import os
 
 router = APIRouter()
 
-pdf_directory = "../frontend/public/submissions"
+pdf_directory = "../athena_frontend/public/submissions"
 
 @router.get("/")
 async def home():
