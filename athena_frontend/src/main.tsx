@@ -14,6 +14,7 @@ const theme = extendTheme({
         padding: 0,
         boxSizing: 'border-box',
         width: "100%", 
+        overflow: "inherit"
       },
     },
   },

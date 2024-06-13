@@ -1,5 +1,5 @@
 import torch
-from .pdf_processing import process_key_answers, process_questions_from_text
+from .pdf_processing_2 import process_key_answers, process_questions_from_text
 
 def cosine_similarity(vec1, vec2):
     """Calculate the cosine similarity between two vectors using PyTorch."""
