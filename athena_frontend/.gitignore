@@ -11,7 +11,8 @@ node_modules
 dist
 dist-ssr
 *.vite
-
+*.env
+**/submissions
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

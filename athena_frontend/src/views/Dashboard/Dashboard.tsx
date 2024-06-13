@@ -8,8 +8,8 @@ function DashBoard() {
   return (
 
         <Box flex="1" p="5" overflow="auto">
-          <FileUpload/>
-          {/* <GroupingList /> */}
+          {/* <FileUpload/> */}
+          <GroupingList />
         </Box>
      
   );

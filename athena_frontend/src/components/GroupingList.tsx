@@ -5,7 +5,7 @@ import axios from 'axios';
 const GroupingList = () => {
   const [answers, setAnswers] = useState<{ answer: string; group: string }[]>([]);
   const [questionText, setQuestionText] = useState("Loading question...");
-  const [questionId, setQuestionId] = useState(13);
+  const [questionId, setQuestionId] = useState(1);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
