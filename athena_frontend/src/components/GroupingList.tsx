@@ -54,7 +54,7 @@ const GroupingList = () => {
   const groupedAnswers = groupAnswers(answers);
 
   return (
-    <Box textAlign="center" width="100%" height="100%" display="flex" flexDirection="column">
+    <Box textAlign="center" width="100%" height="100vh" display="flex" flexDirection="column">
       <Text fontSize="lg" fontWeight="bold">First Group</Text>
       {loading ? (
         <Spinner />
