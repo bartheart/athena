@@ -7,6 +7,7 @@ const Sidebar = () => {
     <VStack
       as="nav"
       spacing={4}
+      mt="70px"
       align="stretch"
       bg="gray.50"
       p={5}

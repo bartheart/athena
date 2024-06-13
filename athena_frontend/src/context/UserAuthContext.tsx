@@ -10,9 +10,11 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
+  signOut as firebaseSignOut,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -26,6 +28,7 @@ export interface UserContextState {
   signUpWithEmail: (email: string, fullName: string, password: string) => Promise<void>;
   sendPasswordResetEmail: (email: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
+  signOut: () => Promise<void>;
   user: User | null;
 }
 
@@ -36,6 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const toast = useToast();
   const auth1 = data.auth;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = auth1.onAuthStateChanged((firebaseUser: User | null) => {
@@ -72,12 +76,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signInWithEmailAndPasswordFunc = async (email: string, password: string): Promise<void> => {
     try {
       const result = await signInWithEmailAndPassword(auth1, email, password);
+      if (!result.user.emailVerified) {
+        await auth1.signOut();
+        toast({
+          title: "Email not verified",
+          description: "Please verify your email before signing in.",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+        });
+        await sendEmailVerification(result.user);
+        navigate("/verify-email");
+        return;
+      }
       setUser(result.user);
     } catch (error) {
       const authError = error as FirebaseError;
+      let errorMessage = "Failed to sign in. Please check your credentials.";
+      if (authError.code === "auth/wrong-password") {
+        errorMessage = "Incorrect password. Please try again.";
+      } else if (authError.code === "auth/user-not-found") {
+        errorMessage = "No user found with this email.";
+      }
       toast({
         title: "Error",
-        description: authError.message,
+        description: errorMessage,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -90,6 +113,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const result = await createUserWithEmailAndPassword(auth1, email, password);
       await updateProfile(result.user, { displayName: `${fullName}` });
       await sendEmailVerification(result.user);
+
       toast({
         title: "Account created",
         description: "A verification email has been sent to your email address. Please verify your email before logging in.",
@@ -97,13 +121,35 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         duration: 9000,
         isClosable: true,
       });
+      navigate("/verify-email");
+    } catch (error) {
+      const authError = error as FirebaseError;
+      let errorMessage = "Failed to create account.";
+      if (authError.code === "auth/email-already-in-use") {
+        errorMessage = "Email is already in use. Please use a different email.";
+      }
+      toast({
+        title: "Error creating account",
+        description: errorMessage,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      // Ensure to stay on the registration page by not navigating away
+    }
+  };
+
+  const signOut = async (): Promise<void> => {
+    try {
+      await firebaseSignOut(auth1);
+      setUser(null);
     } catch (error) {
       const authError = error as FirebaseError;
       toast({
-        title: "Error creating account",
+        title: "Error signing out",
         description: authError.message,
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
     }
@@ -162,6 +208,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     signUpWithEmail,
     sendPasswordResetEmail: sendPasswordResetEmailFunc,
     forgotPassword,
+    signOut,
   };
 
   return (

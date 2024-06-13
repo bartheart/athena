@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import { useAuth } from "@context/UserAuthContext";
-import { Box, Button, FormControl, FormLabel, Input, Heading, Link, Image, useToast, Flex } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Heading, Image, useToast, Flex, Text, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import sideImage from "@assets/reg.webp"; // Import the image
 
-const Login: React.FC = () => {
+const Registration: React.FC = () => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signInWithEmailAndPasswordFunc } = useAuth()!;
+  const { signUpWithEmail } = useAuth()!;
   const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPasswordFunc(email, password);
+      await signUpWithEmail(email, fullName, password);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to sign in. Please check your credentials.",
+        description: "An error occurred while creating your account.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -32,7 +33,7 @@ const Login: React.FC = () => {
       </Box>
       <Box flex="1" display="flex" alignItems="center" justifyContent="center">
         <Box width="100%" maxW="md" p={6} mx="auto" mt={-12}>
-          <Heading mb={6}>Sign in to your account</Heading>
+          <Heading mb={8}>Create your Athena account</Heading>
           <form onSubmit={handleSubmit}>
             <FormControl id="email" mb={4}>
               <FormLabel>Email</FormLabel>
@@ -43,13 +44,17 @@ const Login: React.FC = () => {
                 required
               />
             </FormControl>
+            <FormControl id="first-name" mb={4}>
+              <FormLabel>Full name</FormLabel>
+              <Input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
+            </FormControl>
             <FormControl id="password" mb={4}>
-              <FormLabel>
-                Password
-                <Link as={RouterLink} to="/forgot-password" ml={2} color="blue.500">
-                  Forgot Password?
-                </Link>
-              </FormLabel>
+              <FormLabel>Password</FormLabel>
               <Input
                 type="password"
                 value={password}
@@ -57,12 +62,18 @@ const Login: React.FC = () => {
                 required
               />
             </FormControl>
-            <Button type="submit" colorScheme="blue" width="full">Sign In</Button>
+            <Button type="submit" colorScheme="blue" width="full" mb={4}>Create account</Button>
           </form>
+          <Text textAlign="center">
+            Already have an account?{" "}
+            <Link as={RouterLink} to="/login" color="blue.500">
+              Sign in
+            </Link>
+          </Text>
         </Box>
       </Box>
     </Flex>
   );
 };
 
-export default Login;
+export default Registration;

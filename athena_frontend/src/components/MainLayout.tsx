@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import Sidebar from '@components/Sidebar';
 
@@ -7,14 +7,13 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const location = useLocation();
-  const noSidebarPaths = ["/", "/set-password"];
-  const showSidebar = !noSidebarPaths.includes(location.pathname);
+  const noSidebarPaths = ["/login", "/set-password", "/registration", "/forgot-password"];
+  const showSidebar = !noSidebarPaths.includes(window.location.pathname);
 
   return (
-    <Flex>
+    <Flex minH="100vh" overflow="hidden">
       {showSidebar && <Sidebar />}
-      <Box flex="1" p="5">
+      <Box flex="1" p="5" mt="70px" overflowY="scroll">
         {children}
       </Box>
     </Flex>
