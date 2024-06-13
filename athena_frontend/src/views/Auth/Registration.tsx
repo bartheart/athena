@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "@context/UserAuthContext";
 import { Box, Button, FormControl, FormLabel, Input, Heading, Image, useToast, Flex, Text, Link } from "@chakra-ui/react";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import sideImage from "@assets/reg.webp"; // Import the image
 
 const Registration: React.FC = () => {
@@ -10,13 +10,11 @@ const Registration: React.FC = () => {
   const [password, setPassword] = useState("");
   const { signUpWithEmail } = useAuth()!;
   const toast = useToast();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signUpWithEmail(email, fullName, password);
-      navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
       toast({
         title: "Error",
