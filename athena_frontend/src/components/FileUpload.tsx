@@ -8,7 +8,7 @@ interface FileWithPreview extends File {
   preview: string;
 }
 
-const FileUpload: React.FC = () => {
+const FileUpload: React.FC<{fileName: string}> = ({fileName} : {fileName: string}) => {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -43,7 +43,6 @@ const FileUpload: React.FC = () => {
         },
       });
       alert('Files uploaded successfully');
-      console.log(response.data);
     } catch (error) {
       console.error('Error uploading file:', error);
       alert('File upload failed');
@@ -71,7 +70,7 @@ const FileUpload: React.FC = () => {
   return (
     <Box p={4}>
       <VStack spacing={4} align="center">
-        <Heading size="md">Student Submissions</Heading>
+        <Heading size="md">{fileName} Submissions</Heading>
         <Box
           {...getRootProps()}
           borderWidth={2}
@@ -105,6 +104,7 @@ const FileUpload: React.FC = () => {
             Upload Files
           </Button>
         </form>
+        {files.length > 0 &&(
         <Box display="flex" justifyContent="space-between" w="100%">
           <Button onClick={handlePrevious} disabled={currentIndex === 0}>
             Previous
@@ -112,7 +112,7 @@ const FileUpload: React.FC = () => {
           <Button onClick={handleNext} disabled={currentIndex === files.length - 1}>
             Next
           </Button>
-        </Box>
+        </Box>)}
       </VStack>
     </Box>
   );
