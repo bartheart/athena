@@ -4,6 +4,7 @@
 *$py.class
 
 # Environment and build files
+*.env
 env/
 venv/
 ENV/
